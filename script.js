@@ -70,9 +70,18 @@ function calculateResults() {
     if (value >= average) aboveAverage.push(anchor);
   });
 
-  const strong = document.createElement('strong');
-  strong.textContent = `\n\nLa tua ancora dominante è: ${max.anchor}`;
-  app.appendChild(strong);
+ const dominantComment = getAnchorComment(max.anchor, max.value, average);
+  const dominantBox = document.createElement('div');
+  dominantBox.style.backgroundColor = '#f0f0f0';
+  dominantBox.style.padding = '1em';
+  dominantBox.style.marginTop = '2em';
+  dominantBox.style.borderRadius = '8px';
+  dominantBox.style.border = '1px solid #ccc';
+  dominantBox.innerHTML = `
+    <h3>La tua ancora dominante è: <em>${max.anchor}</em></h3>
+    <p>${dominantComment}</p>
+`;
+  app.appendChild(dominantBox);
   resultLines.push(`Ancora dominante: ${max.anchor}`);
 
   aboveAverage.forEach(anchor => {
