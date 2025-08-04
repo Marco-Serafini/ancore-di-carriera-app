@@ -1,0 +1,209 @@
+[
+  {
+    "id": 1,
+    "text": "Mi piace essere riconosciuto come esperto in una competenza tecnica specifica.",
+    "anchor": "Competenza tecnica/funzionale"
+  },
+  {
+    "id": 2,
+    "text": "Sono motivato dal desiderio di perfezionare le mie abilità tecniche.",
+    "anchor": "Competenza tecnica/funzionale"
+  },
+  {
+    "id": 3,
+    "text": "Preferisco ruoli in cui posso concentrarmi sulla mia area di specializzazione.",
+    "anchor": "Competenza tecnica/funzionale"
+  },
+  {
+    "id": 4,
+    "text": "Mi sento realizzato quando risolvo problemi complessi nel mio ambito tecnico.",
+    "anchor": "Competenza tecnica/funzionale"
+  },
+  {
+    "id": 5,
+    "text": "Mi interessa più diventare un esperto riconosciuto che gestire persone.",
+    "anchor": "Competenza tecnica/funzionale"
+  },
+
+  {
+    "id": 6,
+    "text": "Mi stimola gestire team e prendere decisioni strategiche.",
+    "anchor": "Competenza gestionale"
+  },
+  {
+    "id": 7,
+    "text": "Desidero ruoli che includano leadership e coordinamento.",
+    "anchor": "Competenza gestionale"
+  },
+  {
+    "id": 8,
+    "text": "Mi interessa influenzare l'organizzazione e guidarne la direzione.",
+    "anchor": "Competenza gestionale"
+  },
+  {
+    "id": 9,
+    "text": "La mia ambizione è assumere ruoli manageriali di alto livello.",
+    "anchor": "Competenza gestionale"
+  },
+  {
+    "id": 10,
+    "text": "Mi sento a mio agio nel prendere decisioni complesse che coinvolgono persone e risorse.",
+    "anchor": "Competenza gestionale"
+  },
+
+  {
+    "id": 11,
+    "text": "Per me è importante avere libertà e flessibilità nel mio lavoro.",
+    "anchor": "Autonomia/indipendenza"
+  },
+  {
+    "id": 12,
+    "text": "Preferisco definire i miei obiettivi e metodi di lavoro.",
+    "anchor": "Autonomia/indipendenza"
+  },
+  {
+    "id": 13,
+    "text": "Valuto positivamente i ruoli in cui posso lavorare in autonomia.",
+    "anchor": "Autonomia/indipendenza"
+  },
+  {
+    "id": 14,
+    "text": "Mi realizzo maggiormente quando ho il controllo del mio tempo e delle mie scelte.",
+    "anchor": "Autonomia/indipendenza"
+  },
+  {
+    "id": 15,
+    "text": "Non mi sento motivato in ambienti troppo strutturati o controllati.",
+    "anchor": "Autonomia/indipendenza"
+  },
+
+  {
+    "id": 16,
+    "text": "Mi dà serenità avere uno stipendio sicuro e stabile.",
+    "anchor": "Sicurezza/stabilità"
+  },
+  {
+    "id": 17,
+    "text": "Preferisco un lavoro sicuro a lungo termine piuttosto che uno rischioso ma stimolante.",
+    "anchor": "Sicurezza/stabilità"
+  },
+  {
+    "id": 18,
+    "text": "Apprezzo i benefit e la stabilità offerti da una grande organizzazione.",
+    "anchor": "Sicurezza/stabilità"
+  },
+  {
+    "id": 19,
+    "text": "Pianifico la mia carriera pensando alla sicurezza economica.",
+    "anchor": "Sicurezza/stabilità"
+  },
+  {
+    "id": 20,
+    "text": "Preferisco ambienti lavorativi prevedibili e affidabili.",
+    "anchor": "Sicurezza/stabilità"
+  },
+
+  {
+    "id": 21,
+    "text": "Mi entusiasma l’idea di avviare qualcosa di nuovo da zero.",
+    "anchor": "Creatività imprenditoriale"
+  },
+  {
+    "id": 22,
+    "text": "Preferisco innovare piuttosto che mantenere lo status quo.",
+    "anchor": "Creatività imprenditoriale"
+  },
+  {
+    "id": 23,
+    "text": "Ho spesso idee che vorrei trasformare in progetti concreti.",
+    "anchor": "Creatività imprenditoriale"
+  },
+  {
+    "id": 24,
+    "text": "Mi piacerebbe avere un'attività mia, anche piccola.",
+    "anchor": "Creatività imprenditoriale"
+  },
+  {
+    "id": 25,
+    "text": "Sono disposto a rischiare pur di realizzare una mia idea.",
+    "anchor": "Creatività imprenditoriale"
+  },
+
+  {
+    "id": 26,
+    "text": "Mi interessa contribuire a migliorare la vita degli altri.",
+    "anchor": "Servizio/dedizione a una causa"
+  },
+  {
+    "id": 27,
+    "text": "Vorrei che il mio lavoro avesse un impatto sociale positivo.",
+    "anchor": "Servizio/dedizione a una causa"
+  },
+  {
+    "id": 28,
+    "text": "Mi realizzo quando riesco ad aiutare persone o comunità.",
+    "anchor": "Servizio/dedizione a una causa"
+  },
+  {
+    "id": 29,
+    "text": "Sono motivato più dallo scopo che dal guadagno.",
+    "anchor": "Servizio/dedizione a una causa"
+  },
+  {
+    "id": 30,
+    "text": "Vorrei lavorare in ambiti educativi, sanitari o no profit.",
+    "anchor": "Servizio/dedizione a una causa"
+  },
+
+  {
+    "id": 31,
+    "text": "Mi appassionano le sfide complesse, anche se difficili da vincere.",
+    "anchor": "Sfida pura"
+  },
+  {
+    "id": 32,
+    "text": "Mi motiva superare ostacoli che altri evitano.",
+    "anchor": "Sfida pura"
+  },
+  {
+    "id": 33,
+    "text": "Amo le situazioni che richiedono massimo sforzo e concentrazione.",
+    "anchor": "Sfida pura"
+  },
+  {
+    "id": 34,
+    "text": "La soddisfazione sta nel risolvere l’impossibile.",
+    "anchor": "Sfida pura"
+  },
+  {
+    "id": 35,
+    "text": "Mi trovo a cercare sempre un nuovo limite da superare.",
+    "anchor": "Sfida pura"
+  },
+
+  {
+    "id": 36,
+    "text": "Cerco un equilibrio tra carriera, famiglia e tempo libero.",
+    "anchor": "Stile di vita"
+  },
+  {
+    "id": 37,
+    "text": "Non accetterei un lavoro che compromette la mia vita personale.",
+    "anchor": "Stile di vita"
+  },
+  {
+    "id": 38,
+    "text": "Il mio lavoro ideale si adatta al mio stile di vita, non il contrario.",
+    "anchor": "Stile di vita"
+  },
+  {
+    "id": 39,
+    "text": "Mi interessa più la qualità della vita che la carriera a tutti i costi.",
+    "anchor": "Stile di vita"
+  },
+  {
+    "id": 40,
+    "text": "Valuto sempre quanto un lavoro sia compatibile con i miei valori familiari.",
+    "anchor": "Stile di vita"
+  }
+]
