@@ -1,4 +1,4 @@
-// File: script.js
+// script.js
 let currentPage = 0;
 let responses = [];
 
@@ -31,7 +31,10 @@ function showPage() {
   nextBtn.onclick = () => {
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
-      responses.push({ id: parseInt(input.dataset.id), value: parseInt(input.value) });
+      const val = parseInt(input.value);
+      if (!isNaN(val)) {
+        responses.push({ id: parseInt(input.dataset.id), value: val });
+      }
     });
 
     if (end >= window.questions.length) {
@@ -47,21 +50,29 @@ function showPage() {
 
 function calculateResults() {
   const scores = {};
+  const validResponses = [];
+
   window.questions.forEach(q => {
     const response = responses.find(r => r.id === q.id);
-    if (!scores[q.anchor]) scores[q.anchor] = 0;
-    scores[q.anchor] += response ? response.value : 0;
+    if (response && !isNaN(response.value)) {
+      if (!scores[q.anchor]) scores[q.anchor] = 0;
+      scores[q.anchor] += response.value;
+      validResponses.push(response);
+    }
   });
 
   const app = document.getElementById('app');
   app.innerHTML = '<h2>Risultati:</h2>';
+
   let max = { anchor: null, value: -1 };
   const resultLines = [];
-
-  const average = Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length;
+  const anchors = Object.keys(scores);
+  const values = Object.values(scores);
+  const average = values.reduce((a, b) => a + b, 0) / anchors.length;
   const aboveAverage = [];
 
-  Object.entries(scores).forEach(([anchor, value]) => {
+  anchors.forEach(anchor => {
+    const value = scores[anchor];
     const p = document.createElement('p');
     p.textContent = `${anchor}: ${value}`;
     app.appendChild(p);
@@ -70,7 +81,7 @@ function calculateResults() {
     if (value >= average) aboveAverage.push(anchor);
   });
 
- const dominantComment = getAnchorComment(max.anchor, max.value, average);
+  const dominantComment = getAnchorComment(max.anchor, max.value, average);
   const dominantBox = document.createElement('div');
   dominantBox.style.backgroundColor = '#f0f0f0';
   dominantBox.style.padding = '1em';
@@ -80,14 +91,18 @@ function calculateResults() {
   dominantBox.innerHTML = `
     <h3>La tua ancora dominante è: <em>${max.anchor}</em></h3>
     <p>${dominantComment}</p>
-`;
+  `;
   app.appendChild(dominantBox);
   resultLines.push(`Ancora dominante: ${max.anchor}`);
+  resultLines.push(dominantComment);
 
   aboveAverage.forEach(anchor => {
-    const comment = document.createElement('p');
+    const comment = document.createElement('div');
     comment.style.marginTop = '1em';
-    comment.innerHTML = `<em><strong>${anchor}</strong>: ${getAnchorComment(anchor, scores[anchor], average)}</em>`;
+    comment.style.padding = '0.75em';
+    comment.style.backgroundColor = '#eaf6ff';
+    comment.style.borderLeft = '4px solid #3399cc';
+    comment.innerHTML = `<strong>${anchor}</strong>: ${getAnchorComment(anchor, scores[anchor], average)}`;
     app.appendChild(comment);
   });
 
@@ -107,28 +122,28 @@ function calculateResults() {
 function getAnchorComment(anchor, score, avg) {
   const intensity = score > avg + 4 ? "in modo particolarmente marcato. " : "";
   const base = {
-    'Ti realizzi quando puoi approfondire una specifica area di competenza e raggiungere un alto livello di padronanza tecnica. La tua motivazione nasce dal desiderio di eccellere in un campo ben definito, dove le tue conoscenze e abilità siano riconosciute e apprezzate. Ti senti appagato quando vieni consultato come riferimento esperto, e preferisci spesso la profondità alla varietà. Esempio: potresti trovarti a tuo agio in ruoli come analista, ingegnere specializzato, medico, artigiano esperto o sviluppatore software, dove il valore si misura in precisione, aggiornamento continuo e competenza tecnica.',
-    'Competenza gestionale': 'Ti senti naturalmente attratto dalla possibilità di guidare persone, gestire risorse e prendere decisioni complesse. Hai una predisposizione per il coordinamento e una visione strategica che ti spinge a cercare ruoli di responsabilità. Le sfide organizzative ti stimolano, e il tuo senso di realizzazione cresce man mano che il tuo impatto cresce. Esempio: potresti eccellere in posizioni di team leader, responsabile di progetto, manager di area, direttore operativo, o in contesti in cui sia necessario mediare, motivare e organizzare.',
-    'Autonomia/indipendenza': 'Per te è fondamentale poter decidere come, quando e con quali modalità lavorare. La tua soddisfazione non deriva solo dai risultati, ma anche dal senso di padronanza e autodeterminazione che provi nel raggiungerli. Apprezzi ambienti poco gerarchici, orientati agli obiettivi più che ai processi. Esempio: potresti preferire una carriera da freelance, consulente indipendente, autore, ricercatore, imprenditore individuale o ruoli in organizzazioni che valorizzano il lavoro agile.',
-    'Sicurezza/stabilità': 'Attribuisci grande valore alla continuità e alla prevedibilità. Ti impegni molto e cerchi ambienti che sappiano offrirti certezze a lungo termine, benefici concreti e un’organizzazione strutturata. Non si tratta di mancanza di ambizione, ma di un investimento consapevole nel tempo e nella sicurezza personale e familiare. Esempio: potresti preferire ruoli in amministrazione pubblica, grandi aziende stabili, enti regolatori o realtà con piani di carriera definiti e ritmi prevedibili.',
-    'Creatività imprenditoriale': 'Hai uno spirito pionieristico: ami generare idee nuove, trasformarle in progetti concreti e accettare il rischio dell’ignoto. L’incertezza per te non è un limite, ma un terreno fertile. Cerchi contesti in cui sperimentare, innovare, proporre soluzioni fuori dagli schemi. Esempio: potresti realizzarti come fondatore di una startup, progettista, innovatore, designer strategico o promotore di nuove iniziative in contesti dinamici.',
-    'Servizio/dedizione a una causa': 'Ciò che ti muove è il desiderio di contribuire al bene comune. Il tuo lavoro acquista senso se percepisci un impatto positivo sulla vita degli altri o sulla società. Non sei motivato principalmente dal profitto, ma dal significato. Esempio: potresti essere portato per il terzo settore, la cooperazione internazionale, l’insegnamento, l’assistenza sociale, la sanità o le attività di advocacy e promozione dei diritti.',
-    'Sfida pura': 'Ami confrontarti con obiettivi difficili, superare ostacoli e raggiungere risultati che altri ritengono impossibili. Ti motivano l’adrenalina, la competizione (anche con te stesso), e la possibilità di dimostrare quanto vali sotto pressione. Esempio: potresti brillare in ruoli ad alte prestazioni come vendite competitive, sport professionistico, consulenza strategica, gare di innovazione o ambienti in cui la sfida è continua.',
-    'Stile di vita': 'Dai priorità a un equilibrio sostenibile tra lavoro, relazioni personali e tempo per te stesso. Lavorare è importante, ma deve essere compatibile con i tuoi valori, il tuo benessere e le tue scelte di vita. Cerchi aziende che comprendano la persona oltre il professionista. Esempio: potresti prediligere ruoli in aziende che offrono flessibilità oraria, lavoro da remoto, benefit per la famiglia, o scegliere carriere che non ti costringano a sacrificare troppo il tempo personale.'
+    'Competenza tecnica/funzionale': `🧠 Competenza tecnica/funzionale\nTi realizzi quando puoi approfondire una specifica area di competenza e raggiungere un alto livello di padronanza tecnica. [...]`,
+    'Competenza gestionale': `👔 Competenza gestionale\nTi senti naturalmente attratto dalla possibilità di guidare persone, gestire risorse e prendere decisioni complesse. [...]`,
+    'Autonomia/indipendenza': `🕊️ Autonomia/indipendenza\nPer te è fondamentale poter decidere come, quando e con quali modalità lavorare. [...]`,
+    'Sicurezza/stabilità': `🛡️ Sicurezza/stabilità\nAttribuisci grande valore alla continuità e alla prevedibilità. [...]`,
+    'Creatività imprenditoriale': `🚀 Creatività imprenditoriale\nHai uno spirito pionieristico: ami generare idee nuove, trasformarle in progetti concreti [...].`,
+    'Servizio/dedizione a una causa': `❤️ Servizio/dedizione a una causa\nCiò che ti muove è il desiderio di contribuire al bene comune. [...]`,
+    'Sfida pura': `🎯 Sfida pura\nAmi confrontarti con obiettivi difficili, superare ostacoli e raggiungere risultati che altri ritengono impossibili. [...]`,
+    'Stile di vita': `🌱 Stile di vita\nDai priorità a un equilibrio sostenibile tra lavoro, relazioni personali e tempo per te stesso. [...]`
   };
   return intensity + (base[anchor] || '');
 }
 
 function getCareerSuggestions(anchor) {
   const suggestions = {
-    'Competenza tecnica/funzionale': 'Valuta master di specializzazione, corsi tecnici avanzati, certificazioni professionali o ruoli da esperto senior. Ambiti: IT, ingegneria, medicina, artigianato specializzato.',
-    'Competenza gestionale': 'Approfondisci soft skill manageriali, leadership e strategia organizzativa. Consigliati MBA, project management, coaching per team. Ambiti: management, direzione, consulenza organizzativa.',
-    'Autonomia/indipendenza': 'Cerca percorsi di autoimprenditorialità, digital nomadismo, o micro-consulenza. Corsi su gestione del tempo, fiscalità, marketing personale. Ambiti: freelance, consulenza, professioni autonome.',
-    'Sicurezza/stabilità': 'Orientati verso concorsi pubblici, aziende con welfare forte o percorsi di carriera lineari. Formazione su gestione amministrativa, compliance, processi. Ambiti: pubblica amministrazione, banche, grandi aziende.',
-    'Creatività imprenditoriale': 'Esplora incubatori, startup lab, acceleratori. Segui corsi su business model, pitch, gestione dell’innovazione. Ambiti: startup, innovazione sociale, imprese creative.',
-    'Servizio/dedizione a una causa': 'Formati in ambito socioeducativo, coaching, nonprofit management. Esplora progetti ad impatto sociale o in contesti internazionali. Ambiti: ONG, istruzione, salute pubblica.',
-    'Sfida pura': 'Scegli ruoli con target sfidanti, percorsi ad alte performance. Ottimi corsi: vendite complesse, problem solving avanzato, business game. Ambiti: sales, sport, competizioni, consulenza strategica.',
-    'Stile di vita': 'Cerca ambienti flessibili, smart working, forme ibride. Formati in time management, work-life balance, mindfulness. Ambiti: HR, formazione, benessere, professioni digitali da remoto.'
+    'Competenza tecnica/funzionale': 'Valuta master di specializzazione, corsi tecnici avanzati, certificazioni professionali o ruoli da esperto senior. [...]',
+    'Competenza gestionale': 'Approfondisci soft skill manageriali, leadership e strategia organizzativa. [...]',
+    'Autonomia/indipendenza': 'Cerca percorsi di autoimprenditorialità, digital nomadismo, o micro-consulenza. [...]',
+    'Sicurezza/stabilità': 'Orientati verso concorsi pubblici, aziende con welfare forte o percorsi di carriera lineari. [...]',
+    'Creatività imprenditoriale': 'Esplora incubatori, startup lab, acceleratori. [...]',
+    'Servizio/dedizione a una causa': 'Formati in ambito socioeducativo, coaching, nonprofit management. [...]',
+    'Sfida pura': 'Scegli ruoli con target sfidanti, percorsi ad alte performance. [...]',
+    'Stile di vita': 'Cerca ambienti flessibili, smart working, forme ibride. [...]'
   };
   return suggestions[anchor] || '';
 }
