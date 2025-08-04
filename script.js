@@ -15,7 +15,8 @@ function showPage() {
   const end = start + 5;
   const pageQuestions = window.questions.slice(start, end);
 
-  app.innerHTML = '<h1>Autovalutazione Ancore di Carriera</h1><p><a href="https://marcoserafini.xyz" target="_blank">marcoserafini.xyz</a></p>';
+  app.innerHTML = '<p><a href="https://marcoserafini.xyz" target="_blank">marcoserafini.xyz</a></p>';
+
   pageQuestions.forEach(q => {
     const container = document.createElement('div');
     container.className = 'question';
@@ -55,49 +56,46 @@ function calculateResults() {
 
   const app = document.getElementById('app');
   app.innerHTML = '<h2>Risultati:</h2><p><a href="https://marcoserafini.xyz" target="_blank">marcoserafini.xyz</a></p>';
+
   let max = { anchor: null, value: -1 };
   const resultLines = [];
   const average = Object.values(scores).reduce((a, b) => a + b, 0) / Object.keys(scores).length;
   const aboveAverage = [];
 
   Object.entries(scores).forEach(([anchor, value]) => {
-    const p = document.createElement('p');
-    p.textContent = `${anchor}: ${value}`;
-    app.appendChild(p);
-    resultLines.push(`${anchor}: ${value}`);
     if (value > max.value) max = { anchor, value };
     if (value >= average) aboveAverage.push(anchor);
   });
 
   const dominantBox = document.createElement('div');
   dominantBox.className = 'box-dominante';
-  dominantBox.innerHTML = `<strong>La tua ancora dominante è: ${max.anchor}</strong><br>${getAnchorComment(max.anchor)}`;
+  dominantBox.innerHTML = `
+    <h3>La tua ancora dominante è: ${max.anchor}</h3>
+    <p>${getAnchorDescription(max.anchor)}</p>
+  `;
   app.appendChild(dominantBox);
   resultLines.push(`Ancora dominante: ${max.anchor}`);
-  resultLines.push(`${getAnchorComment(max.anchor)}`);
+  resultLines.push(getAnchorDescription(max.anchor));
 
-  const heading = document.createElement('h3');
-  heading.textContent = 'Ancore sopra la media';
-  app.appendChild(heading);
-  resultLines.push('Ancore sopra la media:');
+  if (aboveAverage.length > 1) {
+    const group = document.createElement('div');
+    group.innerHTML = '<h3>Ancore sopra la media:</h3>';
+    aboveAverage.forEach(anchor => {
+      if (anchor !== max.anchor) {
+        const p = document.createElement('p');
+        p.innerHTML = `<strong>${anchor}</strong>: ${getAnchorDescription(anchor)}`;
+        group.appendChild(p);
+        resultLines.push(`${anchor}: ${getAnchorDescription(anchor)}`);
+      }
+    });
+    app.appendChild(group);
+  }
 
-  aboveAverage.forEach(anchor => {
-    const comment = document.createElement('p');
-    comment.innerHTML = `<strong>${anchor}</strong>: ${getAnchorComment(anchor)}`;
-    app.appendChild(comment);
-    resultLines.push(`${anchor}: ${getAnchorComment(anchor)}`);
-  });
-
-  const radarContainer = document.createElement('canvas');
-  radarContainer.id = 'radarChart';
-  radarContainer.style.maxWidth = '500px';
-  radarContainer.style.marginTop = '2em';
-  app.appendChild(radarContainer);
   showRadarChart(scores);
   addExportButton(resultLines);
 }
 
-function getAnchorComment(anchor) {
+function getAnchorDescription(anchor) {
   const descriptions = {
     'Competenza tecnica/funzionale': '🧠 Ti realizzi quando puoi approfondire una specifica area di competenza e raggiungere un alto livello di padronanza tecnica. La tua motivazione nasce dal desiderio di eccellere in un campo ben definito, dove le tue conoscenze e abilità siano riconosciute e apprezzate. Ti senti appagato quando vieni consultato come riferimento esperto, e preferisci spesso la profondità alla varietà. Esempio: potresti trovarti a tuo agio in ruoli come analista, ingegnere specializzato, medico, artigiano esperto o sviluppatore software, dove il valore si misura in precisione, aggiornamento continuo e competenza tecnica.',
     'Competenza gestionale': '👔 Ti senti naturalmente attratto dalla possibilità di guidare persone, gestire risorse e prendere decisioni complesse. Hai una predisposizione per il coordinamento e una visione strategica che ti spinge a cercare ruoli di responsabilità. Le sfide organizzative ti stimolano, e il tuo senso di realizzazione cresce man mano che il tuo impatto cresce. Esempio: potresti eccellere in posizioni di team leader, responsabile di progetto, manager di area, direttore operativo, o in contesti in cui sia necessario mediare, motivare e organizzare.',
@@ -147,29 +145,34 @@ function addExportButton(resultLines) {
   button.onclick = () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    let y = 10;
+
+    doc.setFont('helvetica');
     doc.setFontSize(10);
-    doc.setTextColor(40);
-    const lineHeight = 8;
-    let y = 20;
-    doc.text("Autovalutazione Ancore di Carriera", 10, 10);
     doc.setTextColor(100);
-    doc.text("marcoserafini.xyz", 10, 15);
-    doc.setTextColor(40);
+    doc.text('https://marcoserafini.xyz', 10, y);
+    y += 10;
+
+    doc.setFontSize(14);
+    doc.setTextColor(0);
     resultLines.forEach(line => {
-      const split = doc.splitTextToSize(line, 180);
-      split.forEach(txt => {
+      const lines = doc.splitTextToSize(line, 180);
+      lines.forEach(part => {
         if (y > 270) {
           doc.addPage();
-          y = 20;
-          doc.text("marcoserafini.xyz", 10, 15);
+          y = 10;
+          doc.setFontSize(10);
+          doc.setTextColor(100);
+          doc.text('https://marcoserafini.xyz', 10, y);
+          y += 10;
+          doc.setFontSize(14);
+          doc.setTextColor(0);
         }
-        doc.text(txt, 10, y);
-        y += lineHeight;
+        doc.text(part, 10, y);
+        y += 8;
       });
     });
     doc.save('ancore_di_carriera.pdf');
   };
   document.getElementById('app').appendChild(button);
-}
-
 }
