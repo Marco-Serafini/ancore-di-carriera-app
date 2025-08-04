@@ -2,27 +2,63 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ancore di Carriera</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <title>Autovalutazione Ancore di Carriera</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 2em; }
-    .question { margin-bottom: 1.5em; }
-    button { margin-top: 2em; padding: 0.5em 1em; background-color: #223344; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    canvas { max-width: 400px; margin-top: 2em; }
-    .highlight-box {
-      background-color: #f0f0f0;
-      padding: 1em;
-      border: 1px solid #ccc;
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .question {
+      margin-bottom: 1.5em;
+    }
+
+    button {
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      margin-top: 1em;
+      cursor: pointer;
+      background-color: #0077cc;
+      color: white;
+      border: none;
       border-radius: 5px;
+    }
+
+    h2, h3 {
+      color: #0077cc;
+    }
+
+    .highlight {
+      background-color: #e0e0e0;
+      padding: 1em;
+      border-radius: 5px;
+      margin: 1em 0;
+    }
+
+    canvas {
       margin-top: 2em;
+      display: block;
+      max-width: 100%;
     }
   </style>
 </head>
 <body>
+  <h1>Autovalutazione delle Ancore di Carriera</h1>
   <div id="app">Caricamento...</div>
-  <canvas id="radarChart" style="display:none"></canvas>
+  <canvas id="radarChart" width="400" height="400" style="display: none;"></canvas>
+
+  <!-- jsPDF per l'esportazione PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Chart.js per il radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Script principale -->
   <script src="script.js"></script>
 </body>
 </html>
